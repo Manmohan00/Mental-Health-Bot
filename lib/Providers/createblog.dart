@@ -1,12 +1,8 @@
-
-
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CreateBlogProvider extends ChangeNotifier{
-  late String content;
+   String content = '';
   late File image;
   String imageurl = '';
   bool selected = false;

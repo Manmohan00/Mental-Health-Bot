@@ -3,6 +3,7 @@ import 'package:mentalhealthbot/Logic/firebase_senddata.dart';
 import 'package:mentalhealthbot/Logic/image.dart';
 import 'package:mentalhealthbot/Logic/size.dart';
 import 'package:mentalhealthbot/Providers/createblog.dart';
+import 'package:mentalhealthbot/Providers/loadingprovider.dart';
 import 'package:provider/provider.dart';
 
 import '../../commonui.dart';
@@ -13,16 +14,17 @@ TextEditingController controller = TextEditingController();
   Widget build(BuildContext context) {
     List<double> sizes = ScreenSize(context);
     CreateBlogProvider bp = Provider.of<CreateBlogProvider>(context);
-    return Cappbar("Publish a blog",
+    LoadingProvider lp = Provider.of<LoadingProvider>(context);
+    return lp.getblog ? loading() : Cappbar("Publish a blog",
         Container(
           margin: EdgeInsets.only(top: sizes[1] * 0.03),
-          padding: EdgeInsets.only(top: sizes[1] * 0.03),
+          padding: EdgeInsets.only(top: sizes[1] * 0.02),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(topLeft:Radius.circular(20.0),
                 topRight: Radius.circular(20.0)),
           ),
-          height: sizes[1],
+          height: sizes[1] - sizes[1] * 0.04,
           width: sizes[0],
           child: SingleChildScrollView(
                 child: Column(
@@ -38,7 +40,7 @@ TextEditingController controller = TextEditingController();
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
+                          children: const [
                             Icon(Icons.image_outlined,
                             color: Colors.white,),
                             Text("Add Image",
@@ -90,15 +92,21 @@ TextEditingController controller = TextEditingController();
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       onPressed: ()async{
-                        if(bp.getselected == true) {
-                          await UploadFile(context);
-                          controller.clear();
-                          FirebaseSendBlogData(
-                              context, bp.getcontent, bp.getimageurl);
+                        if(bp.getcontent.isEmpty == true || bp.getselected == false){
+                          ScaffoldMessenger.of(context).showSnackBar(snack("Content and image cannot be empty"));
                         }
-                          bp.setcontent = '';
-                          bp.setselected = false;
-                      },
+                        else {
+                            lp.setblog = true;
+                            await UploadFile(context);
+                            controller.clear();
+                            FirebaseSendBlogData(
+                                context, bp.getcontent, bp.getimageurl);
+                            ScaffoldMessenger.of(context).showSnackBar(successeSnack("Blog Uploaded"));
+                            lp.setblog = false;
+                            bp.setcontent = '';
+                            bp.setselected = false;
+                          }
+                        },
                     ),
                   ],
                 ),

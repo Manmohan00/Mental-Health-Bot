@@ -36,12 +36,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.0.0
   firebase_auth: ^3.1.1
-  flutter_html: ^2.1.2
   cloud_firestore: ^2.5.3
   image_picker: ^0.8.4+2
   path_provider: ^2.0.5
   firebase_storage: ^10.0.3
   readmore: ^2.1.0
+  webview_flutter: ^2.1.0
 
 dev_dependencies:
   flutter_test:

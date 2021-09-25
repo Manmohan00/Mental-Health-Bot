@@ -17,8 +17,5 @@ void getImage(context) async{
 Future<bool> UploadFile(context) async{
   TaskSnapshot task = await Global.storage.ref().child("Blog/${DateTime.now()}").putFile(Provider.of<CreateBlogProvider>(context,listen:false).getimage);
   await task.ref.getDownloadURL().then((value) => Provider.of<CreateBlogProvider>(context,listen:false).setimageurl = value);
-  // Global.storage.ref().getDownloadURL().then((value) =>
-  // Provider.of<CreateBlogProvider>(context,listen:false).setimageurl = value
-  // );
   return true;
 }

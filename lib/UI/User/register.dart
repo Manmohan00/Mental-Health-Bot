@@ -108,14 +108,24 @@ class Registration extends StatelessWidget {
                         letterSpacing: 1.5
                     ),),
                   onPressed: () async {
-                    lp.setRegister = true;
+                    if(up.getname.isEmpty || up.getpass.isEmpty || up.getmail.isEmpty){
+                      ScaffoldMessenger.of(context).showSnackBar(snack("Please fill all the fields"));
+                    }
+                    else if(up.getpass.length <= 6){
+                      ScaffoldMessenger.of(context).showSnackBar(snack("Please enter a long password"));
+                    }
+                    else if(up.getmail.contains(".com" ) == false || up.getmail.contains("@") == false){
+                      ScaffoldMessenger.of(context).showSnackBar(snack("Please enter a valid email"));
+                    }
+                    else{
+                      lp.setRegister = true;
                     await userCreate(up.getname, up.getmail, up.getpass,
-                    context);
+                        context);
                     up.setpass = '';
                     up.setmail = '';
                     up.setname = '';
                     Navigator.pop(context);
-                    lp.setRegister = false;
+                    lp.setRegister = false;}
                   })
             ],
           ),

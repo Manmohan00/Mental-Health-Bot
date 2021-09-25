@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:mentalhealthbot/Logic/size.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 import '../../commonui.dart';
 
 class UserChat extends StatelessWidget {

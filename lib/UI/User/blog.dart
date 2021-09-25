@@ -1,3 +1,4 @@
+import 'package:mentalhealthbot/Providers/createblog.dart';
 import 'package:mentalhealthbot/Providers/loadingprovider.dart';
 import 'package:mentalhealthbot/commonui.dart';
 import 'package:readmore/readmore.dart';
@@ -183,11 +184,18 @@ class Feedback extends StatelessWidget {
                 borderRadius:
                 BorderRadius.all( Radius.circular(15))),
             onPressed: () {
-              lp.setblog = true;
-              FirebaseSendData('Users', context, up.getfeedback);
-              controller.clear();
-              up.setfeedback = '';
-              lp.setblog = false;
+              if(up.getfeedback.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(snack("Please add some feedback"));
+              }
+              else{
+                lp.setblog = true;
+                FirebaseSendData('Users', context, up.getfeedback);
+                ScaffoldMessenger.of(context).showSnackBar(successeSnack("Uploaded Successfully"));
+                controller.clear();
+                up.setfeedback = '';
+                lp.setblog = false;
+              }
+
             },
           ),
         ],

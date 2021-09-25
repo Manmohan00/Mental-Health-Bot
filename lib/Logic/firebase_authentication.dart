@@ -18,18 +18,25 @@ Future<bool> userLogin(String email, String password, context) async{
   }
 }
 
-Future<bool> userCreate( String name, String email, String password, context) async{
-  UserCredential user = await
-  Global.auth.createUserWithEmailAndPassword(email: email, password: password);
-  user.user?.updateDisplayName(name);
-  if(user.user?.uid != null){
-    Provider.of<AuthenticationProvider>(context, listen:false).setname =  user.user?.displayName ?? '';
-    Provider.of<AuthenticationProvider>(context, listen:false).setemail =  user.user?.email ?? '';
+Future<String?> userCreate( String name, String email, String password, context) async{
+  try {
+    UserCredential user = await
+    Global.auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    user.user?.updateDisplayName(name);
+    if (user.user?.uid != null) {
+      Provider
+          .of<AuthenticationProvider>(context, listen: false)
+          .setname = user.user?.displayName ?? '';
+      Provider
+          .of<AuthenticationProvider>(context, listen: false)
+          .setemail = user.user?.email ?? '';
 
-    await FirebaseSendUserData("Users", context, name, email);
-    return true;
+      await FirebaseSendUserData("Users", context, name, email);
+      return "Success";
+    }
   }
-  else{
-    return false;
+  on  FirebaseAuthException catch(e){
+    return e.message;
   }
-}
+  }

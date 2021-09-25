@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mentalhealthbot/Logic/firebase_authentication.dart';
 import 'package:mentalhealthbot/Logic/size.dart';
 import 'package:mentalhealthbot/Providers/authentication.dart';
@@ -29,11 +28,12 @@ class LoginPage extends StatelessWidget {
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: sizes[1] * 0.01),
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 height: sizes[1] * 0.25,
                 child: Text("""Mental Health Advisor\n Welcomes You!""",
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontWeight: FontWeight.bold,
                   color: Colors.deepPurple.shade800,
                   fontSize: 30,
                 ),),
@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
                   width: sizes[0],
                   height: sizes[1],
                  // margin: EdgeInsets.only(top: sizes[1] * 0.25),
-                  padding: EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Column(
                     children: [
                       Container(
@@ -76,7 +76,7 @@ class LoginPage extends StatelessWidget {
                               },
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(vertical: 10.0),
+                              margin: const EdgeInsets.symmetric(vertical: 10.0),
                               child: TextField(
                                 decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.security),
@@ -105,8 +105,8 @@ class LoginPage extends StatelessWidget {
 
                       MaterialButton(
                         minWidth: sizes[0] * 0.5,
-                        child: Text("Login",
-                          style: TextStyle(
+                        child: const Text("Login",
+                          style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5
@@ -116,23 +116,35 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(13.0),
                           ),
                           onPressed:() async{
-                          ap.setloading = true;
-                         bool login = await userLogin(auth.getmail, auth.getpass, context);
-                          if(login == true){
-                            ap.setloading = false;
-                            ap.getusername == 'Admin' ? Navigator.pushNamed(context, AdminHome.id)
-                                :Navigator.pushNamed(context, UserHome.id);
+                            bool login = false;
+                          if(auth.getmail.isEmpty || auth.getpass.isEmpty){
+                            ScaffoldMessenger.of(context).showSnackBar(snack("Email and Password cannot be empty"));
                           }
-                          ap.setloading = false;
+                          else if(auth.getmail.contains(".") == false || auth.getmail.contains("@") == false){
+                            ScaffoldMessenger.of(context).showSnackBar(snack("Please enter a valid email"));
+                          }
+                          else{
+                            login = await userLogin(auth.getmail, auth.getpass, context);
+
+                            if(login == true){
+                              ap.setloading = true;
+                              ap.getusername == 'Admin' ? Navigator.pushNamed(context, AdminHome.id)
+                                  :Navigator.pushNamed(context, UserHome.id);
+                              ap.setloading = false;
+                            }
+                            else{
+                              ScaffoldMessenger.of(context).showSnackBar(snack(login));
+                            }
+                          }
                           }),
-                      Text("OR"),
+                      const Text("OR"),
                       MaterialButton(
                           minWidth: sizes[0] * 0.5,
                           color: Colors.deepPurpleAccent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(13.0),
                           ),
-                          child: Text("Register",
+                          child: const Text("Register",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -151,7 +163,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
-
-
-

@@ -36,3 +36,34 @@ class loading extends StatelessWidget {
   }
 }
 
+SnackBar snack(errorText){
+  return SnackBar(
+    behavior: SnackBarBehavior.floating,
+    padding: EdgeInsets.all(10.0),
+    backgroundColor: Colors.red,
+    content: Text(
+      errorText,
+      style: const TextStyle(
+        color: Colors.white,
+        letterSpacing: 2.0,
+      ),
+    ),
+  );
+}
+
+SnackBar successeSnack(errorText){
+  return SnackBar(
+    behavior: SnackBarBehavior.floating,
+    padding: EdgeInsets.all(10.0),
+    backgroundColor: Colors.green.shade700,
+    content: Text(
+      errorText,
+      style: const TextStyle(
+        color: Colors.white,
+        letterSpacing: 2.0,
+      ),
+    ),
+  );
+}
+
+
