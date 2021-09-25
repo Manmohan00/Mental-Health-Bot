@@ -5,21 +5,16 @@ import 'package:mentalhealthbot/Logic/size.dart';
 import 'package:mentalhealthbot/Providers/createblog.dart';
 import 'package:provider/provider.dart';
 
+import '../../commonui.dart';
+
 class CreateBlog extends StatelessWidget {
 TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     List<double> sizes = ScreenSize(context);
     CreateBlogProvider bp = Provider.of<CreateBlogProvider>(context);
-    return Scaffold(
-        backgroundColor: Colors.orangeAccent,
-      appBar: AppBar(
-        foregroundColor: Colors.deepPurple,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text("Publish a blog"),
-      ),
-        body: Container(
+    return Cappbar("Publish a blog",
+        Container(
           margin: EdgeInsets.only(top: sizes[1] * 0.03),
           padding: EdgeInsets.only(top: sizes[1] * 0.03),
           decoration: const BoxDecoration(

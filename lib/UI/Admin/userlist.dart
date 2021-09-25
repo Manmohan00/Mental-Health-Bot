@@ -5,6 +5,7 @@ import 'package:mentalhealthbot/Logic/size.dart';
 import 'package:mentalhealthbot/Logic/userdatamodel.dart';
 import 'package:mentalhealthbot/Providers/admin_provider.dart';
 import 'package:mentalhealthbot/Providers/providerglobals.dart';
+import 'package:mentalhealthbot/commonui.dart';
 import 'package:provider/provider.dart';
 import 'package:mentalhealthbot/Logic/firebase_getdata.dart';
 
@@ -26,15 +27,8 @@ class Users extends StatelessWidget {
   Widget build(BuildContext context) {
     List<double> sizes = ScreenSize(context);
     List user = Provider.of<List<UserModel>>(context);
-    return Scaffold(
-      backgroundColor: Colors.orangeAccent,
-      appBar: AppBar(
-        foregroundColor: Colors.deepPurple,
-        title: Text("User List & Feedback"),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: Container(
+    return Cappbar("User List & Feedback",
+      Container(
         margin: EdgeInsets.only(top: sizes[1] * 0.03),
         padding: EdgeInsets.only(top: sizes[1] * 0.03, right: 10.0, left: 10.0),
         decoration: const BoxDecoration(

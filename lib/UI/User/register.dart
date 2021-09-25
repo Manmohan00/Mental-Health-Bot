@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mentalhealthbot/Logic/firebase_authentication.dart';
 import 'package:mentalhealthbot/Logic/size.dart';
+import 'package:mentalhealthbot/Providers/loadingprovider.dart';
 import 'package:mentalhealthbot/Providers/userprovider.dart';
+import 'package:mentalhealthbot/commonui.dart';
 import 'package:provider/provider.dart';
 
 class Registration extends StatelessWidget {
@@ -13,11 +15,12 @@ class Registration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoadingProvider lp = Provider.of<LoadingProvider>(context);
     List<double> sizes = ScreenSize(context);
     UserProvider up = Provider.of<UserProvider>(context);
-    return Scaffold(
-      backgroundColor: Colors.orangeAccent,
-      body: Container(
+    return lp.getRegister ? loading():
+    Cappbar("Registration",
+      Container(
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -25,7 +28,7 @@ class Registration extends StatelessWidget {
         ),
         width: sizes[0],
         height: sizes[1],
-        margin: EdgeInsets.only(top: sizes[1] * 0.25),
+        margin: EdgeInsets.only(top: sizes[1] * 0.03),
         padding: EdgeInsets.only(top: sizes[0] * 0.15),
         child: SingleChildScrollView(
           child: Column(
@@ -98,19 +101,21 @@ class Registration extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(13.0),
                   ),
-                  child: Text("Register",
+                  child: const Text("Register",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5
                     ),),
                   onPressed: () async {
+                    lp.setRegister = true;
                     await userCreate(up.getname, up.getmail, up.getpass,
                     context);
                     up.setpass = '';
                     up.setmail = '';
                     up.setname = '';
                     Navigator.pop(context);
+                    lp.setRegister = false;
                   })
             ],
           ),

@@ -1,3 +1,5 @@
+import 'package:mentalhealthbot/Providers/loadingprovider.dart';
+import 'package:mentalhealthbot/commonui.dart';
 import 'package:readmore/readmore.dart';
 import 'package:flutter/material.dart';
 import 'package:mentalhealthbot/Logic/blog_datamodel.dart';
@@ -28,16 +30,11 @@ class Blog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List bm = Provider.of<List<BlogModel>>(context);
+    LoadingProvider lp = Provider.of<LoadingProvider>(context);
     List<double> sizes = ScreenSize(context);
-    return Scaffold(
-      backgroundColor: Colors.orangeAccent,
-      appBar: AppBar(
-        foregroundColor: Colors.deepPurple,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text("Blogs"),
-      ),
-      body:  Center(
+    return lp.getblog ? loading():
+    Cappbar("Blogs",
+        Center(
         child: Container(
           margin: EdgeInsets.only(top: sizes[1] * 0.03),
           padding: EdgeInsets.only(top: sizes[1] * 0.03),
@@ -138,6 +135,7 @@ class Feedback extends StatelessWidget {
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    LoadingProvider lp = Provider.of<LoadingProvider>(context);
     UserProvider up = Provider.of<UserProvider>(context);
     List<double> sizes = ScreenSize(context);
     return Container(
@@ -185,9 +183,11 @@ class Feedback extends StatelessWidget {
                 borderRadius:
                 BorderRadius.all( Radius.circular(15))),
             onPressed: () {
+              lp.setblog = true;
               FirebaseSendData('Users', context, up.getfeedback);
               controller.clear();
               up.setfeedback = '';
+              lp.setblog = false;
             },
           ),
         ],

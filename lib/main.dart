@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'Providers/admin_provider.dart';
 import 'Providers/authentication.dart';
 import 'Providers/createblog.dart';
+import 'Providers/loadingprovider.dart';
 import 'Providers/userprovider.dart';
 import 'UI/Admin/adminhome.dart';
 import 'UI/User/blogfull.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => AdminProvider()),
         ChangeNotifierProvider(create: (context) => CreateBlogProvider()),
+        ChangeNotifierProvider(create: (context) => LoadingProvider()),
         ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
       ],
       child: MaterialApp(

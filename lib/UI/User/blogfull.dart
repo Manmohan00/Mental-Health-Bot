@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mentalhealthbot/Logic/size.dart';
 
+import '../../commonui.dart';
+
 class BlogFull extends StatelessWidget {
   static const String id = 'BlogFull';
 
@@ -11,15 +13,8 @@ class BlogFull extends StatelessWidget {
   Widget build(BuildContext context) {
     Map args = ModalRoute.of(context)?.settings.arguments as Map<String,dynamic>;
     List<double> sizes = ScreenSize(context);
-    return Scaffold(
-      backgroundColor: Colors.orangeAccent,
-      appBar: AppBar(
-        foregroundColor: Colors.deepPurple,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text("Blog"),
-      ),
-      body: Container(
+    return Cappbar("Blog",
+        Container(
         margin: EdgeInsets.only(top: sizes[1] * 0.05),
         padding: EdgeInsets.only(top: sizes[1] * 0.03),
         decoration: const BoxDecoration(
